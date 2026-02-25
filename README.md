@@ -78,19 +78,6 @@ Instant mode copies video data directly without re-encoding. If the cut point do
 | Remove 5s outro | Skip End | `5` |
 | Keep only 0:30–1:00 | Range | `30` to `60` |
 
-## Interface
-
-```
-○  video1.mp4                   45.2s
-◐  video2.mp4                   encoding...
-                                [████████░░] 78% · 1.2x
-●  video3.mp4                   done
-```
-
-- `○` Pending (gray)
-- `◐` Processing (yellow) — shows progress bar, %, and speed
-- `●` Done (green) or Error (red)
-
 ## Troubleshooting
 
 **FFmpeg not found**
