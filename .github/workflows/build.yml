@@ -38,16 +38,16 @@ jobs:
       - name: Build (PyInstaller)
         run: |
           pip install pyinstaller
-          pyinstaller --onefile --name myapp app.py
+          pyinstaller --onefile --name trimtool trimtool.py
 
       - name: Package
         shell: bash
         run: |
           mkdir -p out
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-            cp dist/myapp.exe out/myapp-${{ runner.os }}.exe
+            cp dist/trimtool.exe out/trimtool-${{ runner.os }}.exe
           else
-            cp dist/myapp out/myapp-${{ runner.os }}
+            cp dist/trimtool out/trimtool-${{ runner.os }}
           fi
 
       - name: Create GitHub Release + upload assets
