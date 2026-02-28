@@ -2,8 +2,7 @@ name: Build & Release
 
 on:
   push:
-    tags:
-      - "v*.*.*"   # e.g. v1.2.3
+    tags: ["v*.*.*"]
   workflow_dispatch:
     inputs:
       tag:
@@ -24,6 +23,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -50,7 +51,17 @@ jobs:
             cp dist/trimtool out/trimtool-${{ runner.os }}
           fi
 
+      - name: Ensure tag exists (manual runs)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          TAG="${{ github.event.inputs.tag }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release $TAG" || true
+          git push origin "$TAG" || true
+
       - name: Create GitHub Release + upload assets
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || github.event.inputs.tag }}
           files: out/*
