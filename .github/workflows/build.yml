@@ -53,6 +53,7 @@ jobs:
 
       - name: Ensure tag exists (manual runs)
         if: ${{ github.event_name == 'workflow_dispatch' }}
+        shell: bash
         run: |
           TAG="${{ github.event.inputs.tag }}"
           git config user.name "github-actions[bot]"
